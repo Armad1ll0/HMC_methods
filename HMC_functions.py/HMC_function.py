@@ -71,5 +71,7 @@ def HMC(x_old, NLP, NLP_grad, step_size, trajectory_length, inv_cov, M, old_inbe
 
     if accept:
         return accept, x_new, new_inbetween
+    
     else: 
         return accept, x_old, old_inbetween
+    
