@@ -1,4 +1,6 @@
 #Updating the mass matrix based on the samples 
+import numpy as np 
+
 def update_mass(theory_cov, theory_samples, results):
     '''
     inputs: 
