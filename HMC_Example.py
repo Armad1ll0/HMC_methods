@@ -1,7 +1,7 @@
 #importing dependencies 
 import numpy as np 
 import matplotlib.pyplot as plt 
-from sklearn.datasets import make
+from sklearn.datasets import make_spd_matrix
 from HMC_chain import HMC_chain
 from matplotlib.patches import Ellipse
 import time as time 
@@ -27,12 +27,12 @@ print(np.linalg.inv(inv_cov))
 #functions needed for our NLP and the grad of it 
 def NLP(x, inv_cov):
     xT = x.T
-    return 0.5*(xT @ A @ x)
+    return 0.5*(xT @ inv_cov @ x)
 
-def neg_log_prob_grad(x, inv_cov):
-    return A @ x
+def NLP_grad(x, inv_cov):
+    return inv_cov @ x
   
-HMC_results, acceptance, all_vals, M, actual_cov, similarity = HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_cov, M, init_inbetween)
+HMC_results, acceptance, all_vals, M, actual_cov, similarity = HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_cov, M, init_inbetween, theory_cov, theory_samples)
 HMC_results_array = np.asarray(HMC_results)
 all_vals_array = np.asarray(all_vals)
 
@@ -44,7 +44,7 @@ ax = plt.subplot(111)
 #REMEMBER, IN THE PROBABILITY DENSITY FUNCTION, A = Sigma^-1, SO WE ARE ACTUALLY DRAWING 
 #FROM THE INVERSE OF a AND NOT a ITSELF WHEN WE TAKE SAMPLES 
 #This took me far to long to figure out. 
-sigma = np.linalg.inv(A)
+sigma = np.linalg.inv(inv_cov)
 vals, vecs = np.linalg.eigh(sigma)
 theta = np.degrees(np.arctan2(*vecs[:,0][::-1]))
 w, h = 2 * nstd * np.sqrt(vals)
