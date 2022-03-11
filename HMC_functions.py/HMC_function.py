@@ -1,4 +1,6 @@
 import numpy as np 
+from update_mass import update_mass 
+from leapfrog import leapfrog 
 #HMC sampler 
 
 def HMC(x_old, NLP, NLP_grad, step_size, trajectory_length, inv_cov, M, old_inbetween):
