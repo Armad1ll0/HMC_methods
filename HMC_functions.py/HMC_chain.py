@@ -3,7 +3,7 @@ from update_mass import update_mass
 from HMC_function import HMC
 import numpy as np 
 
-def HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_cov, M, init_inbetween):
+def HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_cov, M, init_inbetween, theory_cov, theory_samples):
     '''
     inputs: 
     step_size, trajectory_length, NLP, NLP_grad, inv_cov and M are explained in leapfrog.py
@@ -60,3 +60,4 @@ def HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_co
     acceptance_rate = n_accepted/float(n_total)
     
     return chain, acceptance_rate, all_vals, M, actual_cov, similarity
+
