@@ -18,7 +18,7 @@ def proposed(x, step_size):
 
     return x_new 
 
-def p_acc_MH(x_new, x_old, log_prob):
+def p_acc_MH(x_new, x_old, log_prob, inv_cov):
     '''
     Metropolis hastings energy calculation 
     
@@ -34,9 +34,9 @@ def p_acc_MH(x_new, x_old, log_prob):
     whichever one is smaller 
     '''
     
-    return min(1, np.exp(log_prob(x_new, A) - log_prob(x_old, A)))
+    return min(1, np.exp(log_prob(x_new, inv_cov) - log_prob(x_old, inv_cov)))
 
-def sample_MH(x_old, log_prob, step_size):
+def sample_MH(x_old, log_prob, step_size, inv_cov):
     '''
     Metropolis Hastings acceptance criteria 
     
@@ -50,7 +50,7 @@ def sample_MH(x_old, log_prob, step_size):
     
     x_new = proposed(x_old, step_size)
     num = np.random.random()
-    accept = num < p_acc_MH(x_new, x_old, log_prob)
+    accept = num < p_acc_MH(x_new, x_old, log_prob, inv_cov)
     if accept:
         return accept, x_new 
       
