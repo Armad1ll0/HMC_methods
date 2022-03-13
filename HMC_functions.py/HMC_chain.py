@@ -4,8 +4,10 @@ from HMC_function import HMC
 import numpy as np 
 from tqdm import tqdm
 
-def HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_cov, M, init_inbetween, theory_cov, theory_samples):
+def HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_cov, M, init_inbetween, theory_cov, theory_samples, seed=42):
     '''
+    Function generates a chain of samples 
+    
     inputs: 
     step_size, trajectory_length, NLP, NLP_grad, inv_cov and M are explained in leapfrog.py
     
@@ -14,6 +16,8 @@ def HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_co
     init_inbetween is the initial number of in between samples which will always just be an array of zeros 
     
     init is the first point you want to start the sampler off with 
+    
+    seed is the random number seed, more useful if multiprocessing, for single chain stuff it is not needed. 
     
     output: 
     chain is the chain of samples that have bveen accepted 
@@ -30,6 +34,8 @@ def HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_co
     and the covariance/target posterior we generate initially. 
     
     '''
+    
+    np.random.seed(seed)
     chain = [init]
     steps_in_between = [init_inbetween]
     n_accepted = 0
