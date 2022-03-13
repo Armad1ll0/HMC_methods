@@ -1,4 +1,5 @@
 from MCMC_sub_functions import sample_MH
+from tqdm import tqdm
 
 def MCMC_chain(init, step_size, n_total, log_prob, inv_cov):
     '''
@@ -19,7 +20,7 @@ def MCMC_chain(init, step_size, n_total, log_prob, inv_cov):
     '''
     n_accepted = 0
     chain = [init]
-    for i in range(n_total):
+    for i in tqdm(range(n_total)):
         accept, state = sample_MH(chain[-1], log_prob, step_size, inv_cov)
         chain.append(state)
         n_accepted += accept
