@@ -1,5 +1,6 @@
 import multiprocessing as mp 
 from HMC_chain import HMC_chain
+import numpy as np 
 
 num_cores = mp.cpu_count()
 
