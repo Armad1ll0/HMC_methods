@@ -2,6 +2,7 @@ from leapfrog import leapfrog
 from update_mass import update_mass
 from HMC_function import HMC
 import numpy as np 
+from tqdm import tqdm
 
 def HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_cov, M, init_inbetween, theory_cov, theory_samples):
     '''
@@ -35,7 +36,7 @@ def HMC_chain(init, step_size, trajectory_length, n_total, NLP, NLP_grad, inv_co
     all_states = []
     similarity = []
 
-    for j in range(n_total):
+    for j in tqdm(range(n_total)):
         accept, state, in_between = HMC(chain[-1], NLP, NLP_grad, step_size, trajectory_length, inv_cov, M, steps_in_between[-1])
 
         if accept == True:
