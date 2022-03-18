@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar 15 17:02:40 2022
+
+@author: amill212
+"""
+
+#defining an initial step size function for HMC 
 from leapfrog import leapfrog 
 import numpy as np 
 
@@ -56,10 +64,16 @@ def initial_step_size(x, trajectory_length, NLP, NLP_grad, inv_cov, M):
     p_acc = p_acc_func(x_new, p_new, x, p)
 
     a = 2*int(p_acc > 0.5) - 1
-    
+
     while p_acc**a > 2**(-a):
+        p = []
+        for i in range(parems):
+            p_element = np.random.normal(loc=0, scale=1)
+            p.append(p_element)
+        p = np.asarray(p)
         step_size = step_size*(2**(a))
         p_new, x_new, in_between = leapfrog(step_size, trajectory_length, p, x, NLP_grad, inv_cov, M)
         p_acc = p_acc_func(x_new, p_new, x, p)
-    
-    return step_size
+
+        alpha = min(1, p_acc)
+    return step_size, alpha
