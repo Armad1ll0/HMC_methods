@@ -68,7 +68,7 @@ def HMC_Dual_Averaging(init, delta, burn_in, n_total, trajectory_length, NLP, NL
     t_0 = 10
     k = 0.75
     lambda_ = 1
-    trajectory_length = lambda_/step_size
+    trajectory_length = round(lambda_/step_size)
     np.random.seed(seed)
     chain = [init]
     steps_in_between = [init_inbetween]
