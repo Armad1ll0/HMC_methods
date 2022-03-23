@@ -38,3 +38,16 @@ def leapfrog(step_size, trajectory_length, p, x, NLP_grad, inv_cov, M):
     p = p - 0.5*step_size*(M @ NLP_grad(x, inv_cov))
     
     return x, p, in_between 
+
+def leapfrog_alt(step_size, p, x, LP_grad, inv_cov, M):
+    '''
+    same function as the one before but without the trajectory length. We use log prob 
+    and not neg log prob to make things simpler. 
+    
+    '''
+    #need to put in the LP_grad evals to speed things up 
+    p = p + 0.5*step_size*(M @ LP_grad(x, inv_cov))
+    x = x + step_size*(p @ np.linalg.inv(M))
+    p = p + 0.5*step_size*(M @ LP_grad(x, inv_cov))
+    
+    return x, p
